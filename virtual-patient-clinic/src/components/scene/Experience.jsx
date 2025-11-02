@@ -8,38 +8,26 @@ import { MedicalTools } from '../tools/MedicalTools'
 import { Room } from './Room'
 import { Lighting } from './Lighting'
 
-export function Experience() {
-  const { camera } = useThree()
-
-  useFrame((state) => {
-    // به‌روزرسانی‌های هر فریم
-  })
-
+export function Experience({ onBodyPartClick, activeTool }) {
   return (
     <>
-      {/* نورپردازی */}
       <Lighting />
       
-      {/* محیط */}
       <Environment 
         preset="apartment"
         background
         blur={0.5}
       />
       
-      {/* فیزیک */}
       <Physics gravity={[0, -9.81, 0]}>
-        {/* بیمار */}
-        <PatientModel />
-        
-        {/* اتاق معاینه */}
+        <PatientModel 
+          onBodyPartClick={onBodyPartClick}
+          activeTool={activeTool}
+        />
         <Room />
-        
-        {/* ابزار پزشکی */}
         <MedicalTools />
       </Physics>
       
-      {/* کنترل‌های دوربین */}
       <OrbitControls
         enablePan={true}
         enableZoom={true}
@@ -51,3 +39,47 @@ export function Experience() {
     </>
   )
 }
+
+// export function Experience() {
+//   const { camera } = useThree()
+
+//   useFrame((state) => {
+//     // به‌روزرسانی‌های هر فریم
+//   })
+
+//   return (
+//     <>
+//       {/* نورپردازی */}
+//       <Lighting />
+      
+//       {/* محیط */}
+//       <Environment 
+//         preset="apartment"
+//         background
+//         blur={0.5}
+//       />
+      
+//       {/* فیزیک */}
+//       <Physics gravity={[0, -9.81, 0]}>
+//         {/* بیمار */}
+//         <PatientModel />
+        
+//         {/* اتاق معاینه */}
+//         <Room />
+        
+//         {/* ابزار پزشکی */}
+//         <MedicalTools />
+//       </Physics>
+      
+//       {/* کنترل‌های دوربین */}
+//       <OrbitControls
+//         enablePan={true}
+//         enableZoom={true}
+//         enableRotate={true}
+//         minDistance={1}
+//         maxDistance={10}
+//         target={[0, 1, 0]}
+//       />
+//     </>
+//   )
+// }
