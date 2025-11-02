@@ -1,8 +1,8 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import { Experience } from '@/components/scene/Experience'
-import { ControlPanel } from '@/components/ui/ControlPanel'
+import { Experience } from '../components/scene/Experience'
+import { ControlPanel } from '../components/ui/ControlPanel'
 import { Suspense } from 'react'
 
 export default function Home() {
