@@ -1,6 +1,5 @@
 'use client'
 
-import { useThree, useFrame } from '@react-three/fiber'
 import { Physics } from '@react-three/cannon'
 import { OrbitControls, Environment, Sky } from '@react-three/drei'
 import { PatientModel } from '../patient/PatientModel'

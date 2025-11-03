@@ -10,9 +10,11 @@ export function PatientModel({ onBodyPartClick, activeTool }) {
 
   const handleBodyPartClick = (partName, event) => {
     event.stopPropagation()
+    console.log(`Body part clicked: ${partName}`)
+    
     setActivePart(partName)
     
-    // Call the parent handler with the body part and active tool
+    // Always call the parent handler
     if (onBodyPartClick) {
       onBodyPartClick(partName, activeTool)
     }
@@ -34,7 +36,6 @@ export function PatientModel({ onBodyPartClick, activeTool }) {
       <mesh
         position={[0, 1.5, 0]}
         onClick={(e) => handleBodyPartClick('head', e)}
-        scale={activePart === 'head' ? [1.1, 1.1, 1.1] : [1, 1, 1]}
         castShadow
       >
         <sphereGeometry args={[0.3, 16, 16]} />
@@ -45,7 +46,6 @@ export function PatientModel({ onBodyPartClick, activeTool }) {
       <mesh
         position={[0, 1, 0]}
         onClick={(e) => handleBodyPartClick('chest', e)}
-        scale={activePart === 'chest' ? [1.15, 1.15, 1.15] : [1, 1, 1]}
         castShadow
       >
         <boxGeometry args={[0.8, 0.4, 0.3]} />
@@ -56,7 +56,6 @@ export function PatientModel({ onBodyPartClick, activeTool }) {
       <mesh
         position={[0, 0.7, 0]}
         onClick={(e) => handleBodyPartClick('abdomen', e)}
-        scale={activePart === 'abdomen' ? [1.1, 1.1, 1.1] : [1, 1, 1]}
         castShadow
       >
         <boxGeometry args={[0.7, 0.3, 0.25]} />
