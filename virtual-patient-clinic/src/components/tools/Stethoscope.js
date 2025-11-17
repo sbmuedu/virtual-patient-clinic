@@ -7,7 +7,7 @@ import usePatientStore from '../../stores/patientStore';
 
 export function Stethoscope({ audioEngine }) {
   const { size, viewport } = useThree();
-  const [ref, api] = useBox(() => ({ mass: 1, position: [2, 2, 0] }));
+  const [ref, api] = useBox(() => ({ type: 'Kinematic', position: [2, 2, 0] }));
   const examinationArea = usePatientStore((state) => state.examinationArea);
 
   const bind = useDrag(({ offset: [x, y] }) => {
