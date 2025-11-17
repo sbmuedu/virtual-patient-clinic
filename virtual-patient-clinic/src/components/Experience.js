@@ -26,7 +26,7 @@ export function Experience() {
       </Physics>
       
       <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-      <Environment preset="hospital" />
+      <Environment preset="apartment" />
     </>
   );
 }
