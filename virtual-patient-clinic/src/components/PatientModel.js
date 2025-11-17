@@ -1,27 +1,40 @@
 // components/PatientModel.js
 import { useRef } from 'react';
 import { useBox } from '@react-three/cannon';
-import { useGLTF } from '@react-three/drei';
 import usePatientStore from '../stores/patientStore';
 
 export function PatientModel() {
-  const { nodes, materials } = useGLTF('/models/patient.glb');
   const setExaminationArea = usePatientStore((state) => state.setExaminationArea);
 
-  const createBodyPart = (name, geometry, material) => {
+  const createBodyPart = (name, args, position) => {
     const [ref] = useBox(() => ({
       isTrigger: true,
       onCollide: () => setExaminationArea(name),
+      args,
+      position,
     }));
-    return <mesh ref={ref} geometry={geometry} material={material} />;
+    return (
+      <mesh ref={ref}>
+        <boxGeometry args={args} />
+        <meshStandardMaterial color="lightblue" />
+      </mesh>
+    );
   };
 
   return (
     <group>
-      {createBodyPart('head', nodes.head.geometry, materials.skin)}
-      {createBodyPart('chest', nodes.chest.geometry, materials.skin)}
-      {createBodyPart('leftArm', nodes.leftArm.geometry, materials.skin)}
-      {createBodyPart('leftLeg', nodes.leftLeg.geometry, materials.skin)}
+      {/* Head */}
+      {createBodyPart('head', [0.5, 0.5, 0.5], [0, 2, 0])}
+      {/* Chest */}
+      {createBodyPart('chest', [1, 1, 0.5], [0, 1, 0])}
+      {/* Left Arm */}
+      {createBodyPart('leftArm', [0.25, 1, 0.25], [-0.75, 1, 0])}
+      {/* Right Arm */}
+      {createBodyPart('rightArm', [0.25, 1, 0.25], [0.75, 1, 0])}
+      {/* Left Leg */}
+      {createBodyPart('leftLeg', [0.25, 1, 0.25], [-0.25, -0.5, 0])}
+      {/* Right Leg */}
+      {createBodyPart('rightLeg', [0.25, 1, 0.25], [0.25, -0.5, 0])}
     </group>
   );
 }
