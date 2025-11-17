@@ -19,15 +19,7 @@ export function Stethoscope({ audioEngine }) {
     ];
     api.position.set(...newPosition);
   });
-
-  useEffect(() => {
-    if (examinationArea) {
-      handleStethoscopePlacement(examinationArea, ref.current.position);
-    } else {
-      audioEngine.stopAllSounds();
-    }
-  }, [examinationArea]);
-
+  
   const handleStethoscopePlacement = (bodyPart, position) => {
     audioEngine.stopAllSounds();
 
@@ -58,6 +50,16 @@ export function Stethoscope({ audioEngine }) {
       navigator.vibrate(200);
     }
   };
+
+  useEffect(() => {
+    if (examinationArea) {
+      handleStethoscopePlacement(examinationArea, ref.current.position);
+    } else {
+      audioEngine.stopAllSounds();
+    }
+  }, [examinationArea]);
+
+
 
   return (
     <group ref={ref} {...bind()} castShadow>
