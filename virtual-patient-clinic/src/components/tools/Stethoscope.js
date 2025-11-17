@@ -5,10 +5,10 @@ import { useThree } from '@react-three/fiber';
 import { useDrag } from '@use-gesture/react';
 import usePatientStore from '../../stores/patientStore';
 
-export function Stethoscope({ audioEngine }) {
+export function Stethoscope({ audioEngine, activeTool }) {
   const { size, viewport } = useThree();
   const [ref, api] = useBox(() => ({ type: 'Kinematic', position: [2, 2, 0] }));
-  const examinationArea = usePatientStore((state) => state.examinationArea);
+  const { examinationArea, showOverlay, currentCase } = usePatientStore();
 
   const bind = useDrag(({ offset: [x, y] }) => {
     const [, , z] = ref.current.position;
@@ -19,9 +19,23 @@ export function Stethoscope({ audioEngine }) {
     ];
     api.position.set(...newPosition);
   });
-  
+
+  useEffect(() => {
+    if (examinationArea && activeTool === 'stethoscope') {
+      handleStethoscopePlacement(examinationArea, ref.current.position);
+    } else {
+      audioEngine.stopAllSounds();
+    }
+  }, [examinationArea, activeTool]);
+
   const handleStethoscopePlacement = (bodyPart, position) => {
     audioEngine.stopAllSounds();
+
+    const findings = currentCase.findings[bodyPart];
+
+    if (!findings) {
+      return;
+    }
 
     let soundType;
     let soundName;
@@ -45,21 +59,12 @@ export function Stethoscope({ audioEngine }) {
     }
 
     audioEngine.playSound(soundType, soundName, position);
+    showOverlay(findings);
 
     if (navigator.vibrate) {
       navigator.vibrate(200);
     }
   };
-
-  useEffect(() => {
-    if (examinationArea) {
-      handleStethoscopePlacement(examinationArea, ref.current.position);
-    } else {
-      audioEngine.stopAllSounds();
-    }
-  }, [examinationArea]);
-
-
 
   return (
     <group ref={ref} {...bind()} castShadow>
