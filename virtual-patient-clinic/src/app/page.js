@@ -4,7 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Experience } from "../components/Experience";
 import { Dashboard } from "../components/ui/Dashboard";
 import { ToolPalette } from "../components/ui/ToolPalette";
-import { Suspense } Bfrom "react";
+import { Suspense } from "react";
 import { useState } from "react";
 
 export default function Home() {

@@ -4,7 +4,7 @@ import { Physics } from '@react-three/cannon';
 import { OrbitControls, Environment } from '@react-three/drei';
 import { PatientModel } from './PatientModel';
 import { Stethoscope } from './tools/Stethoscope';
-import { createAudioEngine } from '../lib/AudioEngine';
+import { createAudioEngine } from './audio/AudioEngine';
 import { useMemo } from 'react';
 
 export function Experience() {
@@ -19,12 +19,12 @@ export function Experience() {
         intensity={1}
         castShadow
       />
-      
+
       <Physics gravity={[0, -9.81, 0]}>
         <PatientModel />
         <Stethoscope audioEngine={audioEngine} />
       </Physics>
-      
+
       <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
       <Environment preset="hospital" />
     </>
