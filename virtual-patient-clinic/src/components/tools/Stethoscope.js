@@ -1,64 +1,72 @@
 // components/tools/Stethoscope.js
-import { useRef, useState } from 'react'
-import { useDrag } from '@use-gesture/react'
-import { useFrame, useThree } from '@react-three/fiber'
-import { useBox } from '@react-three/cannon'
+import { useRef, useEffect } from 'react';
+import { useBox } from '@react-three/cannon';
+import { useGLTF } from '@react-three/drei';
+import { useThree } from '@react-three/fiber';
+import { useDrag } from '@use-gesture/react';
+import usePatientStore from '../../stores/patientStore';
 
-export function Stethoscope() {
-  const [ref, api] = useBox(() => ({ mass: 1, position: [2, 2, 0] }))
-  const [isListening, setIsListening] = useState(false)
-  const [currentSound, setCurrentSound] = useState(null)
-  const { gl, camera } = useThree()
+export function Stethoscope({ audioEngine, activeTool }) {
+  const { size, viewport } = useThree();
+  const [ref, api] = useBox(() => ({ type: 'Kinematic', position: [2, 2, 0] }));
+  const { scene } = useGLTF('/models/stethoscope.glb');
+  const { examinationArea, showOverlay, currentCase } = usePatientStore();
 
-  const audioContext = useRef(null)
-  const analyser = useRef(null)
+  const bind = useDrag(({ offset: [x, y] }) => {
+    const [, , z] = ref.current.position;
+    const newPosition = [
+      (x / size.width) * viewport.width,
+      (-y / size.height) * viewport.height,
+      z,
+    ];
+    api.position.set(...newPosition);
+  });
 
-  // مقداردهی اولیه Web Audio API
-  const initAudio = () => {
-    if (!audioContext.current) {
-      audioContext.current = new (window.AudioContext || window.webkitAudioContext)()
-      analyser.current = audioContext.current.createAnalyser()
+  useEffect(() => {
+    if (examinationArea && activeTool === 'stethoscope') {
+      handleStethoscopePlacement(examinationArea, ref.current.position);
+    } else {
+      audioEngine.stopAllSounds();
     }
-  }
+  }, [examinationArea, activeTool]);
 
-  // پخش صداهای مختلف بدن
-  const playBodySound = (bodyPart) => {
-    initAudio()
-    
-    const sounds = {
-      chest: '/sounds/heartbeat-normal.mp3',
-      lungs: '/sounds/breathing-normal.mp3',
-      abdomen: '/sounds/bowel-sounds.mp3'
+  const handleStethoscopePlacement = (bodyPart, position) => {
+    audioEngine.stopAllSounds();
+
+    const findings = currentCase.findings[bodyPart];
+
+    if (!findings) {
+      return;
     }
 
-    if (sounds[bodyPart]) {
-      const audio = new Audio(sounds[bodyPart])
-      audio.loop = true
-      audio.play()
-      setCurrentSound(audio)
-      setIsListening(true)
-    }
-  }
+    let soundType;
+    let soundName;
 
-  // هندلر برای قرار دادن استتوسکوپ روی بدن
-  const handleStethoscopePlacement = (bodyPart) => {
-    playBodySound(bodyPart)
-    
-    // ویبره‌ای برای فیدبک لمسی
+    switch (bodyPart) {
+      case 'chest':
+        soundType = 'cardiac';
+        soundName = 'normal';
+        break;
+      // Future implementation will differentiate between lungs and other chest sounds
+      case 'lungs':
+        soundType = 'respiratory';
+        soundName = 'normal';
+        break;
+      case 'abdomen':
+        soundType = 'abdominal';
+        soundName = 'normal';
+        break;
+      default:
+        return;
+    }
+
+    audioEngine.playSound(soundType, soundName, position);
+    showOverlay(findings);
+
     if (navigator.vibrate) {
-      navigator.vibrate(200)
+      navigator.vibrate(200);
     }
-  }
+  };
 
-  useFrame(() => {
-    // تشخیص برخورد استتوسکوپ با بدن
-    // (پیاده‌سازی collision detection)
-  })
-
-  return (
-    <mesh ref={ref} castShadow>
-      <cylinderGeometry args={[0.05, 0.1, 1, 8]} />
-      <meshStandardMaterial color="silver" />
-    </mesh>
-  )
+  return <primitive ref={ref} object={scene} {...bind()} castShadow />;
 }
