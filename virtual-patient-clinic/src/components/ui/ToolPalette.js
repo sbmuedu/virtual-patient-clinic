@@ -1,22 +1,38 @@
-// components/ui/ToolPalette.js
+// src/components/ui/ToolPalette.js
+'use client';
 import React from 'react';
+import { usePatientStore } from '../../stores/patientStore';
 
-export function ToolPalette({ activeTool, setActiveTool }) {
-  const tools = ['stethoscope', 'otoscope', 'ophthalmoscope'];
+const TOOLS = ['Stethoscope', 'Otoscope', 'Ophthalmoscope'];
+
+const ToolPalette = () => {
+  const { activeTool, setActiveTool, finalizeDiagnosis } = usePatientStore();
 
   return (
-    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white p-4 rounded-lg flex space-x-4">
-      {tools.map((tool) => (
+    <div className="absolute top-4 right-4 z-10 p-2 bg-gray-800 bg-opacity-80 rounded-lg shadow-lg">
+      <div className="flex items-center space-x-2">
+        {TOOLS.map((tool) => (
+          <button
+            key={tool}
+            onClick={() => setActiveTool(tool)}
+            className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${
+              activeTool === tool
+                ? 'bg-cyan-500 text-white shadow-lg'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            {tool}
+          </button>
+        ))}
         <button
-          key={tool}
-          className={`px-4 py-2 rounded-lg ${
-            activeTool === tool ? 'bg-blue-500' : 'bg-gray-700'
-          }`}
-          onClick={() => setActiveTool(tool)}
+            onClick={finalizeDiagnosis}
+            className="px-4 py-2 text-sm font-semibold bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
         >
-          {tool.charAt(0).toUpperCase() + tool.slice(1)}
+            Finalize Diagnosis
         </button>
-      ))}
+      </div>
     </div>
   );
-}
+};
+
+export default ToolPalette;

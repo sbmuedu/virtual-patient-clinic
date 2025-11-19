@@ -1,4 +1,5 @@
-"use client";
+// src/app/page.js
+'use client';
 
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "../components/Experience";

@@ -1,20 +1,44 @@
-// stores/patientStore.js
+// src/stores/patientStore.js
 import { create } from 'zustand';
 import { patientCases } from '../lib/cases';
 
-const usePatientStore = create((set) => ({
-  cases: patientCases,
-  currentCase: patientCases.case1,
-  loadCase: (caseId) => set({ currentCase: patientCases[caseId] }),
+export const usePatientStore = create((set) => ({
+  currentCase: null,
+  isCaseSelected: false,
+  activeTool: null,
+  findingsHistory: [],
+  isDiagnosisFinalized: false,
 
-  vitals: patientCases.case1.vitals,
-  examinationArea: null,
-  setExaminationArea: (area) => set({ examinationArea: area }),
+  // Action to set the current patient case
+  setCurrentCase: (caseId) => {
+    const selectedCase = patientCases.find(c => c.id === caseId);
+    set({
+      currentCase: selectedCase,
+      isCaseSelected: true,
+      findingsHistory: [], // Reset history for new case
+      isDiagnosisFinalized: false, // Reset diagnosis state
+    });
+  },
 
-  isOverlayVisible: false,
-  overlayContent: null,
-  showOverlay: (content) => set({ isOverlayVisible: true, overlayContent: content }),
-  hideOverlay: () => set({ isOverlayVisible: false, overlayContent: null }),
+  // Action to set the active medical tool
+  setActiveTool: (tool) => set({ activeTool: tool }),
+
+  // Action to add a new finding to the history
+  addFinding: (findingText) => {
+    set((state) => ({
+      findingsHistory: [...state.findingsHistory, findingText],
+    }));
+  },
+
+  // Action to finalize the diagnosis
+  finalizeDiagnosis: () => set({ isDiagnosisFinalized: true }),
+
+  // Action to reset the simulation to the case selection screen
+  reset: () => set({
+    currentCase: null,
+    isCaseSelected: false,
+    activeTool: null,
+    findingsHistory: [],
+    isDiagnosisFinalized: false,
+  }),
 }));
-
-export default usePatientStore;

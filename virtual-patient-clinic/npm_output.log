@@ -1,3 +1,15 @@
 
+<<<<<<< HEAD
 > virtual-patient-clinic@0.1.0 dev
 > next dev
+=======
+> virtual-patient-clinic@0.1.0 start
+> next start
+
+   ▲ Next.js 16.0.1
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+
+ ✓ Starting...
+ ✓ Ready in 716ms
+>>>>>>> ce9c10b2faae981af6866ea9e47adec5562f7f3d
