@@ -1,7 +1,7 @@
 // components/PatientModel.js
 import { useRef } from 'react';
 import { useBox, useSphere } from '@react-three/cannon';
-import usePatientStore from '../stores/patientStore';
+import {usePatientStore} from '../stores/patientStore';
 
 export function PatientModel() {
   const setExaminationArea = usePatientStore((state) => state.setExaminationArea);

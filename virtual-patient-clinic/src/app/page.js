@@ -3,9 +3,9 @@
 
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "../components/Experience";
-import { Dashboard } from "../components/ui/Dashboard";
-import { ToolPalette } from "../components/ui/ToolPalette";
-import { ExaminationOverlay } from "../components/ui/ExaminationOverlay";
+import  Dashboard  from "../components/ui/Dashboard";
+import  ToolPalette  from "../components/ui/ToolPalette";
+import  {ExaminationOverlay}  from "../components/ui/ExaminationOverlay";
 import { Suspense } from "react";
 import { useState } from "react";
 

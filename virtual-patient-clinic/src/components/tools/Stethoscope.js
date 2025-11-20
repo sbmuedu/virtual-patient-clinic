@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 import { useBox } from '@react-three/cannon';
 import { useThree } from '@react-three/fiber';
 import { useDrag } from '@use-gesture/react';
-import usePatientStore from '../../stores/patientStore';
+import {usePatientStore} from '../../stores/patientStore';
 
 export function Stethoscope({ audioEngine, activeTool }) {
   const { size, viewport } = useThree();

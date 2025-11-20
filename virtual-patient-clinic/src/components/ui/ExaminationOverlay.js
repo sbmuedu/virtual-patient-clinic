@@ -1,6 +1,6 @@
 // components/ui/ExaminationOverlay.js
 import React from 'react';
-import usePatientStore from '../../stores/patientStore';
+import {usePatientStore} from '../../stores/patientStore';
 
 export function ExaminationOverlay() {
   const { isOverlayVisible, overlayContent, hideOverlay } = usePatientStore();
