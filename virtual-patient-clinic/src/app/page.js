@@ -8,7 +8,7 @@ import  ToolPalette  from "../components/ui/ToolPalette";
 import  {ExaminationOverlay}  from "../components/ui/ExaminationOverlay";
 import { Suspense } from "react";
 import { useState } from "react";
-
+import { Html } from "@react-three/drei";
 export default function Home() {
   const [activeTool, setActiveTool] = useState(null);
 
@@ -29,7 +29,7 @@ export default function Home() {
         }}
         className="w-full h-full"
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<Html><div>Loading...</div></Html>}>
           <Experience activeTool={activeTool} />
         </Suspense>
       </Canvas>

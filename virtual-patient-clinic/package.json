@@ -28,8 +28,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "draco3d": "^1.5.7",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
+    "gltf-pipeline": "^4.3.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
