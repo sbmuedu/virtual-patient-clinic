@@ -1,4 +1,8 @@
 // src/stores/patientStore.js
+// This file defines the global state management for the application using Zustand.
+// It holds the state for the current patient case, whether a case is selected, the active tool,
+// and the history of examination findings. It also defines actions to modify this state,
+// such as setting the current case, changing the active tool, and adding findings.
 import { create } from 'zustand';
 import { patientCases } from '../lib/cases';
 
