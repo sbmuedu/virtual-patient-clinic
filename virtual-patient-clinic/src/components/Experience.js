@@ -1,4 +1,8 @@
-// components/Experience.js
+// src/components/Experience.js
+// This component sets up the main 3D scene using React Three Fiber.
+// It includes lighting, physics (via @react-three/cannon), environment presets,
+// and the core components of the simulation like the <PatientModel /> and <Stethoscope />.
+// It also initializes the audio engine that provides sounds for the medical tools.
 import { useThree } from '@react-three/fiber';
 import { Physics } from '@react-three/cannon';
 import { OrbitControls, Environment } from '@react-three/drei';
@@ -13,11 +17,10 @@ export function Experience() {
 
   return (
     <>
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={1} />
       <directionalLight
         position={[10, 10, 5]}
-        intensity={1}
-        castShadow
+        intensity={1.5}
       />
       
       <Physics gravity={[0, -9.81, 0]}>
@@ -25,8 +28,8 @@ export function Experience() {
         <Stethoscope audioEngine={audioEngine} />
       </Physics>
       
-      <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-      <Environment preset="hospital" />
-      </>
+      <OrbitControls />
+      <Environment preset="apartment" />
+    </>
   );
 }

@@ -1,4 +1,8 @@
 // src/lib/cases.js
+// This file contains the data for the different patient cases in the simulation.
+// Each case is an object with properties like id, name, age, description, vitals,
+// and medical findings. This data is used by the `CaseSelection` component to display
+// the available cases and by the `patientStore` to load the selected patient's information.
 export const patientCases = [
     {
       id: 1,

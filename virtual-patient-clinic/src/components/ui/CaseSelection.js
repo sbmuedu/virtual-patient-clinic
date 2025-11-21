@@ -1,4 +1,8 @@
 // src/components/ui/CaseSelection.js
+// This component renders the patient case selection screen, which is the first view
+// the user sees. It displays a list of available patient cases from `src/lib/cases.js`
+// and allows the user to choose one. When a case is selected, it calls the `setCurrentCase`
+// action from the patient store to update the application state and start the simulation.
 'use client';
 import React from 'react';
 import { patientCases } from '../../lib/cases';
